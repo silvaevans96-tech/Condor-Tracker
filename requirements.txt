@@ -1,0 +1,5 @@
+# Core runtime dependencies for local simulation and validation.
+# The device firmware is designed for MicroPython, so the actual ESP32-S3 runtime
+# will use its built-in modules rather than pip-installable packages.
+
+pytest>=8.0.0
