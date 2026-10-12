@@ -7,7 +7,7 @@
 //  Condor Tracker - Arduino
 //  ESP32-S3 + T-SIM7080G
 //  Medición: altitud, distancia, velocidad máxima
-//  Envío cada 5 horas y deep sleep
+//  Envío cada intervalo configurable y deep sleep
 // ==========================
 
 const char* DEVICE_NAME = "condor-tracker";
@@ -22,7 +22,8 @@ const char* DEVICE_NAME = "condor-tracker";
 
 const uint32_t GPS_SAMPLE_INTERVAL_MS = 30000;
 const uint32_t GPS_FIX_TIMEOUT_MS = 60000;
-const uint32_t TRANSMIT_INTERVAL_MS = 5UL * 60UL * 60UL * 1000UL; // 5 horas
+// Transmit interval: 30 seconds (was 5 hours)
+const uint32_t TRANSMIT_INTERVAL_MS = 30UL * 1000UL; // 30 segundos
 
 const char* APN = "internet";
 const char* GPRS_USER = "";
@@ -300,7 +301,7 @@ bool transmitPayload() {
 }
 
 void deepSleepForFiveHours() {
-  Serial.println("[SLEEP] Entering deep sleep for 5 hours");
+  Serial.printf("[SLEEP] Entering deep sleep for %lu seconds\n", TRANSMIT_INTERVAL_MS/1000UL);
   esp_sleep_enable_timer_wakeup((uint64_t)TRANSMIT_INTERVAL_MS * 1000ULL);
   esp_deep_sleep_start();
 }
